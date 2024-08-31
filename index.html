@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #7b2ff7, #f107a3);
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .leaderboard {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #4e004a;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .leaderboard h1 {
+            font-size: 3em;
+            margin: 0 0 20px;
+            color: #fff;
+        }
+
+        .leaderboard table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard th, .leaderboard td {
+            padding: 15px;
+            text-align: left;
+            font-size: 1.2em;
+        }
+
+        .leaderboard th {
+            background: #5e0059;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .leaderboard td {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .leaderboard tr:nth-child(odd) td {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .rank {
+            background: #ff006e;
+            border-radius: 50%;
+            color: #fff;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="leaderboard">
+        <h1>Leaderboard</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Team Name</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+                <!-- Leaderboard data will be inserted here by JavaScript -->
+                 <script>
+                    
+                    document.addEventListener('DOMContentLoaded', function() {
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbwXwf-yxg2lM5UlKt1qLA4q2NiS2Hwumur52mEvCsnTt8CqepfSw_Rm3ZFhQ7FAZG0v/exec';
+
+    fetch(scriptUrl)
+        .then(response => response.json())
+        .then(data => {
+            const leaderboardBody = document.getElementById('leaderboard-body');
+            leaderboardBody.innerHTML = ''; // Clear previous entries
+
+            data.sort((a, b) => b.points - a.points);
+
+            data.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><span class="rank">${index + 1}</span></td>
+                    <td>${entry.teamName}</td>
+                    <td>${entry.points} PTS</td>
+                `;
+                leaderboardBody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error fetching leaderboard data:', error));
+});
+
+
+                 </script>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
