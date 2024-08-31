@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets Test</title>
+</head>
+<body>
+    <div id="data"></div>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        function start() {
+            gapi.client.init({
+                'apiKey': 'AIzaSyC3zdBfJ2sYxurWGiHsEyLUHbg3MMC_Ag8'
+            }).then(function() {
+                return gapi.client.request({
+                    'path': 'https://sheets.googleapis.com/v4/spreadshttps://docs.google.com/spreadsheets/d/1B1xqdc1W2UzTae-sF_Ku9Bvj5dF5qMY9OOVJW3pRWtw/edit?gid=0#gid=0heets/YOUR_SPREADSHEET_ID/values/Sheet1'
+                });
+            }).then(function(response) {
+                var data = response.result.values;
+                var output = '';
+                data.forEach(function(row) {
+                    output += row.join(', ') + '<br>';
+                });
+                document.getElementById('data').innerHTML = output;
+            }, function(reason) {
+                console.log('Error: ' + reason.result.error.message);
+            });
+        }
+
+        gapi.load('client', start);
+    </script>
+</body>
+</html>
