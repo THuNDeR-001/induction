@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        /* Add your styling here */
+    </style>
+</head>
+<body>
+    <div id="leaderboard">
+        <!-- Leaderboard will be dynamically populated here -->
+    </div>
+
+    <script>
+        const url = 'https://script.google.com/macros/s/AKfycbyBDlo_FEBK0agdrRzilNJo_35c06qIYVtnLruxQvCvC6nTLHQp9H9aqE0VyFNZKJo4/exec';
+
+        async function fetchData() {
+            const response = await fetch(url);
+            const data = await response.json();
+            updateLeaderboard(data);
+        }
+
+        function updateLeaderboard(data) {
+            const leaderboardDiv = document.getElementById('leaderboard');
+            leaderboardDiv.innerHTML = ''; // Clear existing data
+
+            data.forEach((row, index) => {
+                const entry = document.createElement('div');
+                entry.textContent = `${index + 1}. ${row[0]} - ${row[1]}`;
+                leaderboardDiv.appendChild(entry);
+            });
+        }
+
+        fetchData();
+        setInterval(fetchData, 30000); // Update every 30 seconds
+    </script>
+</body>
+</html>
